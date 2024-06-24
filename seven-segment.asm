@@ -1,31 +1,45 @@
-; ALP for seven segment display 
+;-----------------------------------------------
+;   DISPLAY: steuert die 4x7 Segmentanzeige
+;-----------------------------------------------
+display:
+mov P1, R0
+clr P0.0
+setb P0.0
 
-            ORG 0H
-            LJMP 100H
+mov P1, R1
+clr P0.1
+setb P0.1
 
-            ORG 50H 
-            DB 3FH, 6H, 5BH, 4FH, 66H, 6DH, 7DH, 7H, 7FH, 6FH, 77H, 7CH, 39H, 5EH, 79H, 71H;
+mov P1, R2
+clr P0.2
+setb P0.2
 
-            ;MAIN PROGRAM 
-            ORG 100H
-  START:    mov r7, #16             ; Counter to count 16 HEX NUMBER
-            MOV P0, #0              ; PORT 0 AS OUTPUT PORT
-            MOV DPTR, #50H          ;POINTER IS LOADED WITH STARTING ADDRESS OF HEX NUMBERS 
+mov P1, R3
+clr P0.3
+setb P0.3
 
-  BACK:     CLR A
-            MOVC A,   @A+DPTR 
-            mov P0, A
-            INC DPTR
-            ACALL DELAY
-            DJNZ R7, BACK
-            SJMP START
+ret
 
-            ;SUBROUTINE FOR A SMALL DELAY
-  DELAY:    MOV R1, #5
-  WAIT1:    MOV R2, #250
-  WAIT:     DJNZ R2, WAIT
-            DJNZ R1, WAIT1
-            RET
-            END 
+; F #0Ah
+; A #0Bh
+; I #01h
+; L #0Ch
+;
+; S #05h
+; U #0Dh
+; C #0Eh
+;-------------------------------------------------
+; TABLE: Datenbank der 7-Segment-Darstellung
+;-------------------------------------------------
+org 300h
+displayDB:
+db 11000000b
+db 11111001b, 10100100b, 10110000b
+db 10011001b, 10010010b, 10000010b
+db 11111000b, 10000000b, 10010000b
+db 10001110b, 10001000b, 11000111b
+db 11000001b, 11000110b
+
+end
             
   
